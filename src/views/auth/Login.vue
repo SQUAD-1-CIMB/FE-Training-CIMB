@@ -6,12 +6,10 @@
           class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0"
         >
           <div class="rounded-t mb-0 px-6 py-6">
-            <div class="text-center mb-3">
-              <h6 class="text-blueGray-500 text-sm font-bold">
-                Sign in with
-              </h6>
-            </div>
-            <div class="btn-wrapper text-center">
+            <!-- <div class="text-center mb-3">
+              <h6 class="text-blueGray-500 text-sm font-bold">Sign in with</h6>
+            </div> -->
+            <!-- <div class="btn-wrapper text-center">
               <button
                 class="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                 type="button"
@@ -26,15 +24,38 @@
                 <img alt="..." class="w-5 mr-1" :src="google" />
                 Google
               </button>
+            </div> -->
+            <!-- <hr class="mt-6 border-b-1 border-blueGray-300" /> -->
+            <div
+              style="
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+              "
+              class="w-full pb-0"
+            >
+              <div
+                class="w-full"
+                style="display: flex; justify-content: center"
+              >
+                <img style="width: 20%" src="@/assets/img/octo_icon.svg" />
+              </div>
+              <div style="display: flex; justify-content: center">
+                <p class="text-center text-2xl text-red-500 font-bold mr-1">
+                  OCTO
+                </p>
+                <p class="text-center text-2xl font-bold text-black-500 ml-1">
+                  TRAINING
+                </p>
+              </div>
             </div>
-            <hr class="mt-6 border-b-1 border-blueGray-300" />
           </div>
-          <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-            <div class="text-blueGray-400 text-center mb-3 font-bold">
+          <div class="flex-auto pt-0 px-4 lg:px-10 py-10">
+            <!-- <div class="text-blueGray-400 text-center mb-3 font-bold">
               <small>Or sign in with credentials</small>
-            </div>
+            </div> -->
             <form>
-              <div class="relative w-full mb-3">
+              <div class="relative w-full mb-3 pt-0">
                 <label
                   class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                   htmlFor="grid-password"
@@ -61,7 +82,7 @@
                   placeholder="Password"
                 />
               </div>
-              <div>
+              <!-- <div>
                 <label class="inline-flex items-center cursor-pointer">
                   <input
                     id="customCheckLogin"
@@ -72,29 +93,32 @@
                     Remember me
                   </span>
                 </label>
-              </div>
+              </div> -->
 
               <div class="text-center mt-6">
                 <button
-                  class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                  class="bg-red-500 text-white active:text-white-200 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg hover:bg-red-600 outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                   type="button"
                 >
                   Sign In
                 </button>
               </div>
             </form>
-          </div>
-        </div>
-        <div class="flex flex-wrap mt-6 relative">
-          <div class="w-1/2">
+            <div class="flex flex-wrap mt-6 relative">
+              <!-- <div class="w-1/2">
             <a href="javascript:void(0)" class="text-blueGray-200">
               <small>Forgot password?</small>
             </a>
-          </div>
-          <div class="w-1/2 text-right">
-            <router-link to="/auth/register" class="text-blueGray-200">
-              <small>Create new account</small>
-            </router-link>
+          </div> -->
+              <div class="w-full text-center">
+                <router-link
+                  to="/auth/register"
+                  class="text-black-200 hover:underline"
+                >
+                  <small>Create new account</small>
+                </router-link>
+              </div>
+            </div>
           </div>
         </div>
       </div>

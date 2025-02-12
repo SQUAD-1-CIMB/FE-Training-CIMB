@@ -1248,6 +1248,10 @@ select {
           background-clip: text;
 }
 
+.bg-white{
+  background-color: white;
+}
+
 .bg-black {
   --tw-bg-opacity: 1;
   background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
@@ -3391,6 +3395,12 @@ select {
 .hover\:text-blueGray-800:hover {
   --tw-text-opacity: 1;
   color: rgba(30, 41, 59, var(--tw-text-opacity));
+}
+
+.hover\:underline:hover{
+  text-decoration: underline;
+  --tw-text-opacity: 1;
+  color: rgba(239, 68, 68, var(--tw-text-opacity));
 }
 
 .truncate {
