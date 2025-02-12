@@ -63,10 +63,12 @@
                   Email
                 </label>
                 <input
+                  v-model="email"
                   type="email"
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   placeholder="Email"
                 />
+                <!-- <span>{{ errors.first("email") }}</span> -->
               </div>
 
               <div class="relative w-full mb-3">
@@ -77,10 +79,14 @@
                   Password
                 </label>
                 <input
+                  v-model="password"
                   type="password"
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   placeholder="Password"
                 />
+                <p class="text-xs text-red-500 pt-1">
+                  {{ errMessage.password }}
+                </p>
               </div>
               <!-- <div>
                 <label class="inline-flex items-center cursor-pointer">
@@ -98,7 +104,10 @@
               <div class="text-center mt-6">
                 <button
                   class="bg-red-500 text-white active:text-white-200 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg hover:bg-red-600 outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                  type="button"
+                  type="submit"
+                  :disabled="isValid"
+                  :style="isValid ? 'background-color: grey' : ''"
+                  @click="login"
                 >
                   Sign In
                 </button>
@@ -126,14 +135,47 @@
   </div>
 </template>
 <script>
-import github from "@/assets/img/github.svg";
-import google from "@/assets/img/google.svg";
-
+import { ref, watch } from "vue";
 export default {
-  data() {
+  setup() {
+    const email = ref("");
+    const password = ref("");
+
+    const errMessage = ref({
+      email: "",
+      password: "",
+    });
+    const isValid = ref(false);
+
+    const login = () => {};
+
+    watch(email, (newValue) => {
+      if (newValue === "") {
+        errMessage.value.email = "Email tidak boleh kosong!";
+        isValid.value = true;
+      } else if (!newValue.includes("@")) {
+        errMessage.value.email = "Email tidak valid!";
+        isValid.value = true;
+      } else {
+        errMessage.value.email = "";
+        isValid.value = false;
+      }
+    });
+    watch(password, (newValue) => {
+      if (newValue === "") {
+        errMessage.value.password = "Password tidak boleh kosong!";
+        isValid.value = true;
+      } else {
+        errMessage.value.password = "";
+        isValid.value = false;
+      }
+    });
     return {
-      github,
-      google,
+      email,
+      password,
+      login,
+      isValid,
+      errMessage,
     };
   },
 };
