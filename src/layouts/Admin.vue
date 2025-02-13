@@ -38,11 +38,11 @@ export default {
 import { getCookie } from "../../cookies";
 import { onMounted, ref } from "vue";
 const dataUser = ref("");
-onMounted(() => {
-  if (!getCookie("dataUser")) {
-    router.push("/auth/login");
-  } else {
-    dataUser.value = JSON.parse(getCookie("dataUser"));
-  }
-});
+// onMounted(() => {
+//   if (!getCookie("dataUser")) {
+//     router.push("/auth/login");
+//   } else {
+//     dataUser.value = JSON.parse(getCookie("dataUser"));
+//   }
+// });
 </script>

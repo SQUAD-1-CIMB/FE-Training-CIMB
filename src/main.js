@@ -37,14 +37,9 @@ import MyTraining from "@/views/karyawan/MyTraining.vue";
 import ListTraining from "@/views/karyawan/ListTraining.vue";
 
 // routes
-import { ref } from "vue";
-// import { useAuthUser } from "../stores/auth";
-import { getCookie } from "../cookies";
-
 const pinia = createPinia();
-const dataUser = ref(JSON.parse(getCookie("dataUser")));
-const defaultPath = dataUser.value.role === "MANAGER" ? "/admin/dashboard" : "/user/list-training";
-const managerRoutes = dataUser.value.role === "MANAGER" ? [
+
+const routes = [
   { 
     path: "/admin",
     redirect: "/admin/dashboard",
@@ -68,10 +63,6 @@ const managerRoutes = dataUser.value.role === "MANAGER" ? [
       },
     ],
   },
-] : [];
-
-const routes = [
-  ...managerRoutes,
   {
     path: "/auth",
     redirect: "/auth/login",
@@ -94,7 +85,7 @@ const routes = [
   {
     path: "/",
     component: Index,
-    redirect: defaultPath,
+    redirect: "/user/list-training",
     children: [
       {
         path: "/user/list-training",
