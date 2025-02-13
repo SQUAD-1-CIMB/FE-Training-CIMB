@@ -16,10 +16,10 @@
       </div>
       <div
         class="flex flex-row grid grid-cols-2 md:grid-cols-3 gap-6"
-        v-if="myTraining?.length > 0"
+        v-if="filteredTraining?.length > 0"
       >
         <CardMyTraining
-          v-for="(items, i) in myTraining"
+          v-for="(items, i) in filteredTraining"
           :key="i"
           :items="items"
         />
@@ -44,7 +44,7 @@
     </div>
     <div
       class="flex items-center justify-center space-x-2 mt-4 pb-4"
-      v-if="myTraining?.length > 0"
+      v-if="filteredTraining?.length > 0"
     >
       <button
         class="px-3 py-1 bg-red-500 border rounded-md hover:bg-gray-200"
@@ -56,7 +56,7 @@
       </button>
 
       <button class="px-3 py-1 border rounded-md">
-        {{ currentPage }}
+        {{ currentPage }} / {{ totalPages }}
       </button>
 
       <button
@@ -88,37 +88,47 @@ const date = new Date();
 
 const search = ref("");
 
+let searchTimeout;
 watch(search, (newVal) => {
+  clearTimeout(searchTimeout);
+  if (search.value !== "") {
+    searchTimeout = setTimeout(async () => {
+      if (search.value == "") {
+        currentPage.value = 1;
+      }
+      await store.actGetMyTraining(
+        currentPage.value,
+        10,
+        search.value,
+        date.toISOString().split("T")[0]
+      );
+    }, 500);
+  }
+});
+
+const filteredTraining = computed(() => {
+  return myTraining.value.filter((x) =>
+    x.Training.title.toLowerCase().includes(search.value.toLowerCase())
+  );
+});
+
+const getMyTraining = () => {
   store.actGetMyTraining(
     currentPage.value,
     10,
     search.value,
     date.toISOString().split("T")[0]
   );
-});
-
-const getMyTraining = () => {
-  store.actGetMyTraining();
 };
 
 const nextPage = () => {
   currentPage.value = currentPage.value + 1;
-  store.actGetListTraining(
-    currentPage.value,
-    10,
-    search.value,
-    date.toISOString().split("T")[0]
-  );
+  getMyTraining();
 };
 
 const prevPage = () => {
   currentPage.value = currentPage.value - 1;
-  store.actGetListTraining(
-    currentPage.value,
-    10,
-    search.value,
-    date.toISOString().split("T")[0]
-  );
+  getMyTraining();
 };
 
 const myTraining = computed(() => {

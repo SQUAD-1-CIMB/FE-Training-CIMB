@@ -1,6 +1,10 @@
 <template>
   <div>
-    <sidebar role="EMPLOYEE" :dataUserName="dataUser?.name" />
+    <sidebar
+      role="EMPLOYEE"
+      :dataUserName="dataUser?.name"
+      :dataAvatar="dataUser?.avatar"
+    />
     <div class="md:ml-64 bg-blueGray-100">
       <!-- <admin-navbar role="EMPLOYEE" /> -->
       <header-user-stats :totalItems="totalItems" />
@@ -37,6 +41,11 @@ onMounted(() => {
     router.push("/auth/login");
   } else {
     dataUser.value = JSON.parse(getCookie("dataUser"));
+    if (dataUser.value.role === "MANAGER") {
+      router.push("/admin/dashboard");
+    } else {
+      router.push("/user/list-training");
+    }
   }
 });
 </script>

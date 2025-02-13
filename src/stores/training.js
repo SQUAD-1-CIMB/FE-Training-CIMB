@@ -39,7 +39,7 @@ export const useTraining = defineStore("training", {
         const res = await api.post("/training-application", {
           training_id: idTraining,
         });
-        if (res.status == 201) {
+        if (res.status == 201 || res.status == 200) {
           const training = this.listTraining.find((x) => x.id === idTraining);
           if (training) {
             training.isAbleToApply = false;
@@ -52,10 +52,11 @@ export const useTraining = defineStore("training", {
         console.log(error);
       }
     },
-    async actGetMyTraining() {
+    async actGetMyTraining(page, limit, filter, startDate) {
       try {
-        const res = await api.get("/my-applications");
-        console.log(res);
+        const res = await api.get(
+          `/my-applications?page=${page}&limit=${limit}&filter=${filter}&startDate=${startDate}`
+        );
         if (res.status == 200) {
           this.myTraining = res.data.data;
           this.totalPagesMyTraining = res.data.totalPages;
