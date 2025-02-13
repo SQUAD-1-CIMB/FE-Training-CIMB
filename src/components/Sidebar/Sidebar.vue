@@ -30,7 +30,11 @@
           <img
             alt="..."
             class="w-full rounded-full align-middle border-none shadow-lg mb-4"
-            src="@/assets/img/team-1-800x800.jpg"
+            :src="
+              dataAvatar === null
+                ? '@/assets/img/team-1-800x800.jpg'
+                : dataAvatar
+            "
             width="400px"
             height="400px"
           />
@@ -249,8 +253,9 @@
                       : 'text-blueGray-700 hover:text-blueGray-500',
                   ]"
                 >
+                  <!-- <i class="fa-solid fa-list"></i> -->
                   <i
-                    class="fas fa-tv mr-2 text-sm"
+                    class="fa-solid fa-list mr-2 text-sm"
                     :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
                   ></i>
                   List Training
@@ -274,7 +279,7 @@
                   ]"
                 >
                   <i
-                    class="fas fa-tools mr-2 text-sm"
+                    class="fa-solid fa-book mr-2 text-sm"
                     :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
                   ></i>
                   My Training
@@ -336,7 +341,7 @@ import NotificationDropdown from "@/components/Dropdowns/NotificationDropdown.vu
 import UserDropdown from "@/components/Dropdowns/UserDropdown.vue";
 
 export default {
-  props: ["role", "dataUserName"],
+  props: ["role", "dataUserName", "dataAvatar"],
   data() {
     return {
       collapseShow: "hidden",

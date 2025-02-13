@@ -56,7 +56,7 @@
       </button>
 
       <button class="px-3 py-1 border rounded-md">
-        {{ currentPage }}
+        {{ currentPage }} / {{ totalPages }}
       </button>
 
       <button
@@ -87,18 +87,23 @@ const date = new Date();
 
 const search = ref("");
 
+let searchTimeout;
 watch(search, (newVal) => {
-  if (newVal == "") {
-    currentPage.value = 1;
-  } 
-  store.actGetListTraining(
-    currentPage.value,
-    10,
-    search.value,
-    date.toISOString().split("T")[0]
-  );
+  clearTimeout(searchTimeout);
+  if (search.value !== "") {
+    searchTimeout = setTimeout(async () => {
+      if (search.value == "") {
+        currentPage.value = 1;
+      }
+      await store.actGetListTraining(
+        currentPage.value,
+        10,
+        search.value,
+        date.toISOString().split("T")[0]
+      );
+    }, 500);
+  }
 });
-
 const getAllTraining = () => {
   store.actGetListTraining(1, 10, "", date.toISOString().split("T")[0]);
 };

@@ -175,7 +175,11 @@ const loginUser = handleSubmit(async (values) => {
     email.value = "";
     password.value = "";
   } else {
-    router.push("/");
+    if (store.getDataUser?.role === "EMPLOYEE") {
+      router.push("/");
+    } else {
+      router.push("/admin/dashboard");
+    }
   }
 });
 </script>

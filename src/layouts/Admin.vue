@@ -1,6 +1,10 @@
 <template>
   <div>
-    <sidebar role="MANAGER" />
+    <sidebar
+      role="MANAGER"
+      :dataUserName="dataUser?.name"
+      :dataAvatar="dataUser?.avatar"
+    />
     <div class="relative md:ml-64 bg-blueGray-100">
       <admin-navbar />
       <header-stats />
@@ -28,4 +32,17 @@ export default {
     FooterAdmin,
   },
 };
+</script>
+<script setup>
+/* eslint-disable */
+import { getCookie } from "../../cookies";
+import { onMounted, ref } from "vue";
+const dataUser = ref("");
+onMounted(() => {
+  if (!getCookie("dataUser")) {
+    router.push("/auth/login");
+  } else {
+    dataUser.value = JSON.parse(getCookie("dataUser"));
+  }
+});
 </script>
