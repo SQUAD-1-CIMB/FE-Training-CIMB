@@ -2,20 +2,19 @@ import { defineStore } from "pinia";
 import axios from "axios";
 // import { useRoute } from "vue-router";
 import { setCookie } from "../../cookies";
-import { useRouter } from "vue-router";
 
 const apiURL = "http://148.135.138.22:5000";
-const router = useRouter();
 
 export const useAuthUser = defineStore("authUser", {
   state: () => ({
-    dataUser: {},
+    dataUser: null,
     errMessage: "",
     loading: false,
     token: null,
   }),
   actions: {
     async loginUser(params) {
+      this.errMessage = "";
       try {
         const res = await axios.post(apiURL + "/user/login", params);
         if (res.status === 200) {
@@ -28,7 +27,7 @@ export const useAuthUser = defineStore("authUser", {
         return true;
       } catch (error) {
         console.log(error);
-        // this.errMessage =
+        this.errMessage = error?.response?.data;
         return false;
       }
     },
@@ -54,7 +53,6 @@ export const useAuthUser = defineStore("authUser", {
         "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       document.cookie =
         "dataUser=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      router.push("/auth/login");
     },
   },
   getters: {

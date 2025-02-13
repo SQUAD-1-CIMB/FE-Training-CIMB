@@ -54,7 +54,7 @@
                 class="fas fa-tools mr-2 text-sm"
                 :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
               ></i> -->
-              Edit profile
+              Lihat profile
             </a>
           </router-link>
           <!-- <div class="w-full" style="display: flex; justify-content: center">
@@ -318,7 +318,7 @@
               ]"
             >
               <i
-                class="fas fa-table mr-2 text-sm"
+                class="fa-solid fa-right-from-bracket mr-2 text-sm"
                 :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
               ></i>
               Logout

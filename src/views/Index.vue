@@ -1,12 +1,15 @@
 <template>
   <div>
     <sidebar role="EMPLOYEE" :dataUserName="dataUser?.name" />
-    <div class="relative md:ml-64 bg-blueGray-100">
+    <div class="md:ml-64 bg-blueGray-100">
       <!-- <admin-navbar role="EMPLOYEE" /> -->
       <header-user-stats :totalItems="totalItems" />
-      <div class="container mx-auto px-4 md:px-10 -m-24">
+      <div
+        class="container mx-auto px-4 md:px-10 -m-24"
+        style="min-height: 100vh"
+      >
         <router-view />
-        <footer-admin />
+        <!-- <footer-admin /> -->
       </div>
     </div>
   </div>

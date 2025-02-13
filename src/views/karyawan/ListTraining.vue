@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="relative flex flex-wrap mx-2">
-      <div class="relative flex w-full flex-wrap items-stretch mb-3">
+    <div class="flex flex-wrap">
+      <div class="flex w-full flex-wrap items-stretch mb-3">
         <span
           class="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3"
         >
@@ -14,19 +14,41 @@
           class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:ring w-full pl-10"
         />
       </div>
-      <fragment v-for="(items, i) in allTraining" :key="i">
-        <div
-          class="w-1/3 px-2 mb-4"
-          style="display: flex; justify-content: center; align-items: center"
+      <div
+        class="flex flex-row grid grid-cols-2 md:grid-cols-3 gap-6"
+        v-if="allTraining?.length > 0"
+      >
+        <CardTraining
+          v-for="(items, i) in allTraining"
+          :key="i"
+          :items="items"
+        />
+      </div>
+      <div
+        class="relative flex w-full"
+        style="
+          justify-content: center;
+          flex-direction: column;
+          align-items: center;
+        "
+        v-else
+      >
+        <img src="@/assets/img/octo-logo-2.svg" width="200px" height="200px" />
+        <p
+          class="text-red-500 pt-0"
+          style="font-weight: 700; font-size: 30px; padding-bottom: 40px"
         >
-          <!-- Lebar 1/3 (3 kolom per baris) -->
-          <CardTraining :items="items" />
-        </div>
-      </fragment>
+          Training Not Found!
+        </p>
+      </div>
     </div>
-    <div class="flex items-center justify-center space-x-2 mt-4">
+    <div
+      class="flex items-center justify-center space-x-2 mt-4 pb-4"
+      v-if="allTraining?.length > 0"
+    >
       <button
-        class="px-3 py-1 border rounded-md hover:bg-gray-200"
+        class="px-3 py-1 bg-red-500 border rounded-md hover:bg-gray-200"
+        style="color: white"
         :disabled="currentPage === 1"
         @click="prevPage()"
       >
@@ -38,7 +60,8 @@
       </button>
 
       <button
-        class="px-3 py-1 border rounded-md hover:bg-gray-200"
+        class="px-3 py-1 bg-red-500 border rounded-md hover:bg-gray-200"
+        style="color: white"
         :disabled="currentPage === totalPages"
         @click="nextPage()"
       >
@@ -66,22 +89,22 @@ const search = ref("");
 
 watch(search, (newVal) => {
   store.actGetListTraining(
-    page.value,
-    12,
+    currentPage.value,
+    10,
     search.value,
     date.toISOString().split("T")[0]
   );
 });
 
 const getAllTraining = () => {
-  store.actGetListTraining(1, 12, "", date.toISOString().split("T")[0]);
+  store.actGetListTraining(1, 10, "", date.toISOString().split("T")[0]);
 };
 
 const nextPage = () => {
   currentPage.value = currentPage.value + 1;
   store.actGetListTraining(
     currentPage.value,
-    12,
+    10,
     search.value,
     date.toISOString().split("T")[0]
   );
@@ -91,7 +114,7 @@ const prevPage = () => {
   currentPage.value = currentPage.value - 1;
   store.actGetListTraining(
     currentPage.value,
-    12,
+    10,
     search.value,
     date.toISOString().split("T")[0]
   );
