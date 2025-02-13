@@ -27,7 +27,7 @@
             : ''
         "
         :disabled="!items.isAbleToApply"
-        @click="postApply(items.id)"
+        @click="confirmApply(id)"
       >
         {{ items.isAbleToApply ? "Apply" : "Applied" }}
       </button>
@@ -39,6 +39,7 @@
 /* eslint-disable */
 import { defineProps } from "vue";
 import { useTraining } from "../../stores/training";
+import Swal from "sweetalert2";
 
 const props = defineProps({
   items: {
@@ -49,8 +50,37 @@ const props = defineProps({
 
 const store = useTraining();
 
-const postApply = (id) => {
-  store.actPostApply(id);
+const postApply = async (id) => {
+  const res = await store.actPostApply(id);
+  if (res) {
+    Swal.fire(
+      "Apply Success!",
+      "You have successfully applied for the training.",
+      "success"
+    );
+  } else {
+    Swal.fire(
+      "Apply Failed!",
+      "Failed to apply for the training. Please try again.",
+      "error"
+    );
+  }
+};
+
+const confirmApply = async (id) => {
+  const result = await Swal.fire({
+    title: "Are u sure want to apply ?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Yes, Apply!",
+    cancelButtonText: "Cancel",
+  });
+
+  if (result.isConfirmed) {
+    postApply(id); // Jalankan fungsi jika user menekan "Ya"
+  }
 };
 </script>
 
