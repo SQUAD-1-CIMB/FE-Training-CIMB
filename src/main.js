@@ -29,7 +29,6 @@ import Register from "@/views/auth/Register.vue";
 
 // views without layouts
 
-import Landing from "@/views/Landing.vue";
 import Profile from "@/views/Profile.vue";
 import Index from "@/views/Index.vue";
 
@@ -38,11 +37,15 @@ import MyTraining from "@/views/karyawan/MyTraining.vue";
 import ListTraining from "@/views/karyawan/ListTraining.vue";
 
 // routes
+import { ref } from "vue";
+// import { useAuthUser } from "../stores/auth";
+import { getCookie } from "../cookies";
 
 const pinia = createPinia();
-
-const routes = [
-  {
+const dataUser = ref(JSON.parse(getCookie("dataUser")));
+const defaultPath = dataUser.value.role === "MANAGER" ? "/admin/dashboard" : "/user/list-training";
+const managerRoutes = dataUser.value.role === "MANAGER" ? [
+  { 
     path: "/admin",
     redirect: "/admin/dashboard",
     component: Admin,
@@ -65,6 +68,10 @@ const routes = [
       },
     ],
   },
+] : [];
+
+const routes = [
+  ...managerRoutes,
   {
     path: "/auth",
     redirect: "/auth/login",
@@ -81,17 +88,13 @@ const routes = [
     ],
   },
   {
-    path: "/landing",
-    component: Landing,
-  },
-  {
     path: "/profile",
     component: Profile,
   },
   {
     path: "/",
     component: Index,
-    redirect: "/user/list-training",
+    redirect: defaultPath,
     children: [
       {
         path: "/user/list-training",
@@ -112,3 +115,5 @@ const router = createRouter({
 });
 
 createApp(App).use(router).use(pinia).mount("#app");
+
+

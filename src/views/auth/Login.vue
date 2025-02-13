@@ -176,7 +176,7 @@ const loginUser = handleSubmit(async (values) => {
     password.value = "";
   } else {
     if (store.getDataUser?.role === "EMPLOYEE") {
-      router.push("/");
+      router.push("/user/list-training");
     } else {
       router.push("/admin/dashboard");
     }
