@@ -1,6 +1,6 @@
 import { createApp } from "vue";
 import { createWebHistory, createRouter } from "vue-router";
-
+import { createPinia } from "pinia";
 // styles
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -33,7 +33,12 @@ import Landing from "@/views/Landing.vue";
 import Profile from "@/views/Profile.vue";
 import Index from "@/views/Index.vue";
 
+// Karyawan
+import MyTraining from "@/views/karyawan/MyTraining.vue";
+
 // routes
+
+const pinia = createPinia();
 
 const routes = [
   {
@@ -85,6 +90,13 @@ const routes = [
   {
     path: "/",
     component: Index,
+    // redirect: "/auth/login",
+    children: [
+      {
+        path: "/user/my-training",
+        component: MyTraining,
+      },
+    ],
   },
   { path: "/:pathMatch(.*)*", redirect: "/" },
 ];
@@ -94,4 +106,4 @@ const router = createRouter({
   routes,
 });
 
-createApp(App).use(router).mount("#app");
+createApp(App).use(router).use(pinia).mount("#app");

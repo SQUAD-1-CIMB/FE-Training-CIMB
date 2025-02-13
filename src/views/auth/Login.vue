@@ -38,23 +38,23 @@
                 class="w-full"
                 style="display: flex; justify-content: center"
               >
-                <img style="width: 20%" src="@/assets/img/octo_icon.svg" />
+                <img style="width: 60%" src="../../assets/img/LogoOcto.png" />
               </div>
-              <div style="display: flex; justify-content: center">
+              <!-- <div style="display: flex; justify-content: center">
                 <p class="text-center text-2xl text-red-500 font-bold mr-1">
                   OCTO
                 </p>
                 <p class="text-center text-2xl font-bold text-black-500 ml-1">
                   TRAINING
                 </p>
-              </div>
+              </div> -->
             </div>
           </div>
           <div class="flex-auto pt-0 px-4 lg:px-10 py-10">
             <!-- <div class="text-blueGray-400 text-center mb-3 font-bold">
               <small>Or sign in with credentials</small>
             </div> -->
-            <form>
+            <form @submit.prevent="loginUser">
               <div class="relative w-full mb-3 pt-0">
                 <label
                   class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -63,10 +63,14 @@
                   Email
                 </label>
                 <input
+                  v-model="email"
                   type="email"
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   placeholder="Email"
                 />
+                <p v-if="emailError" class="text-xs text-red-500 pt-1">
+                  {{ emailError }}
+                </p>
               </div>
 
               <div class="relative w-full mb-3">
@@ -77,10 +81,14 @@
                   Password
                 </label>
                 <input
+                  v-model="password"
                   type="password"
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   placeholder="Password"
                 />
+                <p v-if="passwordError" class="text-xs text-red-500 pt-1">
+                  {{ passwordError }}
+                </p>
               </div>
               <!-- <div>
                 <label class="inline-flex items-center cursor-pointer">
@@ -98,18 +106,19 @@
               <div class="text-center mt-6">
                 <button
                   class="bg-red-500 text-white active:text-white-200 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg hover:bg-red-600 outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                  type="button"
+                  type="submit"
+                  :disabled="emailError || passwordError || !password || !email"
+                  :style="
+                    emailError || passwordError || !password || !email
+                      ? 'background-color: grey'
+                      : ''
+                  "
                 >
                   Sign In
                 </button>
               </div>
             </form>
             <div class="flex flex-wrap mt-6 relative">
-              <!-- <div class="w-1/2">
-            <a href="javascript:void(0)" class="text-blueGray-200">
-              <small>Forgot password?</small>
-            </a>
-          </div> -->
               <div class="w-full text-center">
                 <router-link
                   to="/auth/register"
@@ -125,16 +134,33 @@
     </div>
   </div>
 </template>
-<script>
-import github from "@/assets/img/github.svg";
-import google from "@/assets/img/google.svg";
 
-export default {
-  data() {
-    return {
-      github,
-      google,
-    };
-  },
-};
+<script setup>
+/* eslint-disable */
+import { useAuthUser } from "@/stores/auth";
+import { useForm, useField } from "vee-validate";
+import * as yup from "yup";
+
+const store = useAuthUser();
+const validationSchema = yup.object({
+  email: yup
+    .string()
+    .email("Email tidak valid!")
+    .required("Email tidak boleh kosong!"),
+  password: yup.string().required("Password tidak boleh kosong!"),
+});
+
+// Inisialisasi VeeValidate
+const { handleSubmit } = useForm({
+  validationSchema,
+});
+
+// Setup field validasi
+const { value: email, errorMessage: emailError } = useField("email");
+const { value: password, errorMessage: passwordError } = useField("password");
+
+// Fungsi saat submit form
+const loginUser = handleSubmit((values) => {
+  store.loginUser(values);
+});
 </script>
