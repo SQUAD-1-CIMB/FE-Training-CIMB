@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative flex flex-col min-w-0 break-words bg-white mb-6 shadow-lg rounded"
+    class="flex flex-col min-w-0 break-words bg-white mb-6 shadow-lg rounded"
     style="cursor: pointer"
   >
     <div class="w-full rounded overflow-hidden shadow-lg">

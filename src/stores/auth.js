@@ -2,10 +2,8 @@ import { defineStore } from "pinia";
 import axios from "axios";
 // import { useRoute } from "vue-router";
 import { setCookie } from "../../cookies";
-import { useRouter } from "vue-router";
 
 const apiURL = "http://148.135.138.22:5000";
-const router = useRouter();
 
 export const useAuthUser = defineStore("authUser", {
   state: () => ({
@@ -54,7 +52,6 @@ export const useAuthUser = defineStore("authUser", {
         "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       document.cookie =
         "dataUser=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      router.push("/auth/login");
     },
   },
   getters: {

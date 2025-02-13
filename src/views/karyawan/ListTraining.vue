@@ -65,8 +65,11 @@ const date = new Date();
 const search = ref("");
 
 watch(search, (newVal) => {
+  if (newVal == "") {
+    currentPage.value = 1;
+  } 
   store.actGetListTraining(
-    page.value,
+    currentPage.value,
     12,
     search.value,
     date.toISOString().split("T")[0]
