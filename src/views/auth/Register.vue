@@ -32,10 +32,7 @@
                 </div> -->
               </div>
             </div>
-            <p class="text-xs text-center text-red-500 pb-4">
-              {{ errMessage }}
-            </p>
-            <form @submit.prevent="regisUser">
+            <form @submit.prevent="confirmRegister">
               <div style="display: flex; justify-content: space-between">
                 <div class="relative mb-3" style="width: 45%">
                   <label
@@ -169,6 +166,7 @@
 </template>
 <script setup>
 /* eslint-disable */
+import Swal from "sweetalert2";
 import { computed } from "vue";
 import { useForm, useField } from "vee-validate";
 import * as yup from "yup";
@@ -215,12 +213,31 @@ const errMessage = computed(() => {
   return store.getErrMessage;
 });
 
+const confirmRegister = async () => {
+  const result = await Swal.fire({
+    title: "Are u sure want to submit ?",
+    text: "Make sure your details are correct before proceeding.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Yes, submit!",
+    cancelButtonText: "Cancel",
+  });
+
+  if (result.isConfirmed) {
+    regisUser(); // Jalankan fungsi jika user menekan "Ya"
+  }
+};
+
 const router = useRouter();
 const regisUser = handleSubmit(async (values) => {
   const res = await store.registerUser(values);
   if (res) {
+    Swal.fire("Register Success!", "You have successfully register", "success");
     router.push("/auth/login");
   } else {
+    Swal.fire("Register Failed!", errMessage.value, "error");
     email.value = "";
     password.value = "";
     department.value = "";
