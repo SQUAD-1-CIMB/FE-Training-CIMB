@@ -20,19 +20,19 @@
                   class="w-full"
                   style="display: flex; justify-content: center"
                 >
-                  <img style="width: 20%" src="@/assets/img/octo_icon.svg" />
+                  <img style="width: 40%" src="../../assets/img/LogoOcto.png" />
                 </div>
-                <div style="display: flex; justify-content: center">
+                <!-- <div style="display: flex; justify-content: center">
                   <p class="text-center text-2xl text-red-500 font-bold mr-1">
                     OCTO
                   </p>
                   <p class="text-center text-2xl text-black-500 ml-1">
                     TRAINING
                   </p>
-                </div>
+                </div> -->
               </div>
             </div>
-            <form>
+            <form @submit.prevent="regisUser">
               <div style="display: flex; justify-content: space-between">
                 <div class="relative mb-3" style="width: 45%">
                   <label
@@ -47,8 +47,8 @@
                     class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                     placeholder="Name"
                   />
-                  <p class="text-xs text-red-500 pt-1">
-                    {{ errMessage.name }}
+                  <p v-if="nameError" class="text-xs text-red-500 pt-1">
+                    {{ nameError }}
                   </p>
                 </div>
 
@@ -65,8 +65,8 @@
                     class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                     placeholder="Department"
                   />
-                  <p class="text-xs text-red-500 pt-1">
-                    {{ errMessage.department }}
+                  <p v-if="departmentError" class="text-xs text-red-500 pt-1">
+                    {{ departmentError }}
                   </p>
                 </div>
               </div>
@@ -83,8 +83,8 @@
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   placeholder="Email"
                 />
-                <p class="text-xs text-red-500 pt-1">
-                  {{ errMessage.email }}
+                <p v-if="emailError" class="text-xs text-red-500 pt-1">
+                  {{ emailError }}
                 </p>
               </div>
 
@@ -101,16 +101,36 @@
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   placeholder="Password"
                 />
-                <p class="text-xs text-red-500 pt-1">
-                  {{ errMessage.password }}
+                <p v-if="passwordError" class="text-xs text-red-500 pt-1">
+                  {{ passwordError }}
                 </p>
               </div>
               <div class="text-center mt-6">
                 <button
                   class="bg-red-600 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                   type="submit"
-                  :disabled="isValid"
-                  :style="isValid ? 'background-color: grey' : ''"
+                  :disabled="
+                    nameError ||
+                    passwordError ||
+                    emailError ||
+                    departmentError ||
+                    !name ||
+                    !password ||
+                    !email ||
+                    !department
+                  "
+                  :style="
+                    nameError ||
+                    passwordError ||
+                    emailError ||
+                    departmentError ||
+                    !name ||
+                    !password ||
+                    !email ||
+                    !department
+                      ? 'background-color: grey'
+                      : ''
+                  "
                 >
                   Create Account
                 </button>
@@ -130,86 +150,44 @@
     </div>
   </div>
 </template>
-<script>
-import { ref, watch } from "vue";
-export default {
-  setup() {
-    const email = ref("");
-    const password = ref("");
-    const name = ref("");
-    const department = ref("");
+<script setup>
+/* eslint-disable */
+import { useForm, useField } from "vee-validate";
+import * as yup from "yup";
 
-    const errMessage = ref({
-      email: "",
-      password: "",
-      name: "",
-      department: "",
-    });
-    const isValid = ref(false);
+const validationSchema = yup.object({
+  email: yup
+    .string()
+    .email("Email tidak valid!")
+    .required("Email tidak boleh kosong!"),
+  password: yup
+    .string()
+    .min(6, "Password harus lebih dari 6 karakter!")
+    .required("Password tidak boleh kosong!"),
+  name: yup
+    .string()
+    .matches(/^[A-Za-z\s]+$/, "Nama hanya boleh berisi huruf!")
+    .required("Password tidak boleh kosong!"),
+  department: yup
+    .string()
+    .matches(/^[A-Za-z0-9 ]+$/, "Departemen hanya boleh huruf dan angka!")
+    .required("Departemen tidak boleh kosong!"),
+});
 
-    const alphaNumeric = new RegExp(
-      "^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$"
-    );
-    const alpha = new RegExp(" /^[a-zA-Z ]*$/");
+// Inisialisasi VeeValidate
+const { handleSubmit } = useForm({
+  validationSchema,
+});
 
-    watch(name, (newValue) => {
-      console.log(alpha.test(newValue));
-      if (newValue === "") {
-        errMessage.value.name = "Nama tidak boleh kosong!";
-        isValid.value = true;
-      } else if (alpha.test(newValue)) {
-        errMessage.value.name = "Nama harus berupa alphabet!";
-        isValid.value = true;
-      } else {
-        errMessage.value.name = "";
-        isValid.value = false;
-      }
-    });
+// Setup field validasi
+const { value: email, errorMessage: emailError } = useField("email");
+const { value: password, errorMessage: passwordError } = useField("password");
+const { value: name, errorMessage: nameError } = useField("name");
+const { value: department, errorMessage: departmentError } =
+  useField("department");
 
-    watch(department, (newValue) => {
-      if (newValue === "") {
-        errMessage.value.department = "Department tidak boleh kosong!";
-        isValid.value = true;
-      } else if (!alphaNumeric.test(newValue)) {
-        errMessage.value.department = "Nama department tidak valid!";
-        isValid.value = true;
-      } else {
-        errMessage.value.department = "";
-        isValid.value = false;
-      }
-    });
-
-    watch(email, (newValue) => {
-      if (newValue === "") {
-        errMessage.value.email = "Email tidak boleh kosong!";
-        isValid.value = true;
-      } else if (!newValue.includes("@")) {
-        errMessage.value.email = "Email tidak valid!";
-        isValid.value = true;
-      } else {
-        errMessage.value.email = "";
-        isValid.value = false;
-      }
-    });
-
-    watch(password, (newValue) => {
-      if (newValue === "") {
-        errMessage.value.password = "Password tidak boleh kosong!";
-        isValid.value = true;
-      } else {
-        errMessage.value.password = "";
-        isValid.value = false;
-      }
-    });
-
-    return {
-      email,
-      password,
-      isValid,
-      errMessage,
-      name,
-      department,
-    };
-  },
-};
+// Fungsi saat submit form
+const regisUser = handleSubmit((values) => {
+  console.log(values);
+});
 </script>
