@@ -67,7 +67,7 @@
                   </div>
                 </div>
                 <div class="w-full lg:w-4/12 px-4 lg:order-1">
-                  <div class="flex justify-center py-4 lg:pt-4 pt-8">
+                  <!-- <div class="flex justify-center py-4 lg:pt-4 pt-8">
                     <div class="mr-4 p-3 text-center">
                       <span
                         class="text-xl font-bold block uppercase tracking-wide text-blueGray-600"
@@ -92,14 +92,14 @@
                       </span>
                       <span class="text-sm text-blueGray-400">Comments</span>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div class="text-center mt-12">
                 <h3
                   class="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2"
                 >
-                  Jenna Stones
+                  {{ dataUser?.name }}
                 </h3>
                 <div
                   class="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase"
@@ -107,22 +107,22 @@
                   <i
                     class="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"
                   ></i>
-                  Los Angeles, California
+                  {{ dataUser?.department }}
                 </div>
                 <div class="mb-2 text-blueGray-600 mt-10">
                   <i
                     class="fas fa-briefcase mr-2 text-lg text-blueGray-400"
                   ></i>
-                  Solution Manager - Creative Tim Officer
+                  Email : {{ dataUser?.email }}
                 </div>
-                <div class="mb-2 text-blueGray-600">
+                <!-- <div class="mb-2 text-blueGray-600">
                   <i
                     class="fas fa-university mr-2 text-lg text-blueGray-400"
                   ></i>
                   University of Computer Science
-                </div>
+                </div> -->
               </div>
-              <div class="mt-10 py-10 border-t border-blueGray-200 text-center">
+              <!-- <div class="mt-10 py-10 border-t border-blueGray-200 text-center">
                 <div class="flex flex-wrap justify-center">
                   <div class="w-full lg:w-9/12 px-4">
                     <p class="mb-4 text-lg leading-relaxed text-blueGray-700">
@@ -140,18 +140,18 @@
                     </a>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
       </section>
     </main>
-    <footer-component />
+    <!-- <footer-component /> -->
   </div>
 </template>
 <script>
 import Navbar from "@/components/Navbars/AuthNavbar.vue";
-import FooterComponent from "@/components/Footers/Footer.vue";
+// import FooterComponent from "@/components/Footers/Footer.vue";
 
 import team2 from "@/assets/img/team-2-800x800.jpg";
 
@@ -163,7 +163,15 @@ export default {
   },
   components: {
     Navbar,
-    FooterComponent,
   },
 };
+</script>
+
+<script setup>
+/* eslint-disable */
+import { ref } from "vue";
+// import { useAuthUser } from "../stores/auth";
+import { getCookie } from "../../cookies";
+
+const dataUser = ref(JSON.parse(getCookie("dataUser")));
 </script>

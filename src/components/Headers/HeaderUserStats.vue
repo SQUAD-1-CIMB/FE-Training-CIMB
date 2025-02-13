@@ -1,8 +1,8 @@
 <template>
   <!-- Header -->
-  <div class="relative bg-red-500 md:pt-32 pb-32 pt-12">
+  <div class="relative bg-grey-500 pb-32" style="padding-top: 50px">
     <div class="px-4 md:px-10 mx-auto w-full">
-      <div>
+      <div class="flex justify-center">
         <!-- Card stats -->
         <!-- <div class="flex flex-wrap">
           <div class="w-full lg:w-6/12 xl:w-3/12 px-4"> -->
@@ -18,6 +18,7 @@
             /> -->
         <!-- </div>
         </div> -->
+        <img src="@/assets/img/LogoOcto.png" width="20%" />
       </div>
     </div>
   </div>

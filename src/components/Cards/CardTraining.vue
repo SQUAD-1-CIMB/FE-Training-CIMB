@@ -1,41 +1,42 @@
 <template>
   <div
-    class="flex flex-col min-w-0 break-words bg-white mb-6 shadow-lg rounded"
-    style="cursor: pointer"
+    class="relative bg-white shadow-lg rounded-lg p-4 h-full flex flex-col"
+    v-if="!store.gtrGetLoading"
   >
-    <div class="w-full rounded overflow-hidden shadow-lg">
+    <div class="flex-grow pb-4">
+      <!-- Bagian gambar -->
       <img
-        class="w-full"
-        :src="
-          items.thumbnail === null
-            ? '@assets/team-2-800x800.jpg'
-            : items.thumbnail
-        "
-        alt="Sunset in the mountains"
-        height="100px"
-        style="max-height: 100px"
+        :src="items.thumbnail"
+        alt="Training Image"
+        class="w-full rounded-t-lg"
       />
-      <div class="px-6 py-4">
-        <div class="font-bold text-xl mb-2">{{ items.title }}</div>
-        <div class="text-xs text-blueGray-800 mb-2">{{ items.provider }}</div>
-        <p class="text-gray-700 text-base">
-          {{ items.description }}
-        </p>
-      </div>
-      <div class="px-6 pt-4 pb-2">
-        <span
-          class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2 hover:button-apply"
-          style="cursor: pointer"
-          >Apply</span
-        >
-      </div>
+
+      <!-- Bagian teks -->
+      <h2 class="text-lg font-semibold mt-4">{{ items.title }}</h2>
+      <p class="text-sm text-gray-600">{{ items.provider }}</p>
+      <p class="text-gray-700">{{ items.description }}</p>
     </div>
+
+    <!-- Bagian tombol Apply, tetap di bawah -->
+    <button
+      class="mt-auto bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:button-apply"
+      :style="
+        !items.isAbleToApply
+          ? 'cursor: not-allowed; background-color: grey; hover:none'
+          : ''
+      "
+      :disabled="!items.isAbleToApply"
+      @click="postApply(items.id)"
+    >
+      {{ items.isAbleToApply ? "Apply" : "Applied" }}
+    </button>
   </div>
 </template>
 
 <script setup>
 /* eslint-disable */
 import { defineProps } from "vue";
+import { useTraining } from "../../stores/training";
 
 const props = defineProps({
   items: {
@@ -43,6 +44,12 @@ const props = defineProps({
     default: {},
   },
 });
+
+const store = useTraining();
+
+const postApply = (id) => {
+  store.actPostApply(id);
+};
 </script>
 
 <style lang="scss" scoped></style>

@@ -54,7 +54,9 @@
             <!-- <div class="text-blueGray-400 text-center mb-3 font-bold">
               <small>Or sign in with credentials</small>
             </div> -->
-            {{ errMessageLogin }}
+            <p class="text-xs text-center text-red-500 pb-4">
+              {{ store.getErrMessage }}
+            </p>
             <form @submit.prevent="loginUser">
               <div class="relative w-full mb-3 pt-0">
                 <label
@@ -138,7 +140,7 @@
 
 <script setup>
 /* eslint-disable */
-import { computed, onMounted } from "vue";
+// import { computed, onMounted } from "vue";
 import { useAuthUser } from "@/stores/auth";
 import { useForm, useField } from "vee-validate";
 import * as yup from "yup";
@@ -151,9 +153,9 @@ const validationSchema = yup.object({
   password: yup.string().required("Password can't be empty!"),
 });
 
-const errMessageLogin = computed(() => {
-  return store.getErrMessage;
-});
+// const errMessageLogin = computed(() => {
+//   return store.getErrMessage;
+// });
 
 // Inisialisasi VeeValidate
 const { handleSubmit } = useForm({
