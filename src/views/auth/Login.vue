@@ -54,9 +54,9 @@
             <!-- <div class="text-blueGray-400 text-center mb-3 font-bold">
               <small>Or sign in with credentials</small>
             </div> -->
-            <p class="text-xs text-center text-red-500 pb-4">
+            <!-- <p class="text-xs text-center text-red-500 pb-4">
               {{ store.getErrMessage }}
-            </p>
+            </p> -->
             <form @submit.prevent="loginUser">
               <div class="relative w-full mb-3 pt-0">
                 <label
@@ -141,6 +141,7 @@
 <script setup>
 /* eslint-disable */
 // import { computed, onMounted } from "vue";
+import Swal from "sweetalert2";
 import { useAuthUser } from "@/stores/auth";
 import { useForm, useField } from "vee-validate";
 import * as yup from "yup";
@@ -172,9 +173,11 @@ const router = useRouter();
 const loginUser = handleSubmit(async (values) => {
   const res = await store.loginUser(values);
   if (!res) {
+    Swal.fire("Login Failed!", store.getErrMessage, "error");
     email.value = "";
     password.value = "";
   } else {
+    Swal.fire("Login Success!", "Welcome to Octo Training!", "success");
     if (store.getDataUser?.role === "EMPLOYEE") {
       router.push("/user/list-training");
     } else {

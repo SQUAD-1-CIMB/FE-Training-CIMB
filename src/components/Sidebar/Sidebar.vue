@@ -313,7 +313,7 @@
           <hr class="my-4 md:min-w-full" />
           <li class="items-center">
             <span
-              @click="logout"
+              @click="confirmLogout()"
               style="cursor: pointer"
               class="text-xs uppercase py-3 font-bold block"
               :class="[
@@ -361,10 +361,28 @@ export default {
 
 <script setup>
 /* eslint-disable */
+import Swal from "sweetalert2";
 import { useAuthUser } from "../../stores/auth";
 import { useRouter } from "vue-router";
 const store = useAuthUser();
 const router = useRouter();
+
+const confirmLogout = async () => {
+  const result = await Swal.fire({
+    title: "Are u sure want to logout ?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Yes, logout!",
+    cancelButtonText: "Cancel",
+  });
+
+  if (result.isConfirmed) {
+    logout(); // Jalankan fungsi jika user menekan "Ya"
+  }
+};
+
 const logout = () => {
   store.logout();
   router.push("/auth/login");

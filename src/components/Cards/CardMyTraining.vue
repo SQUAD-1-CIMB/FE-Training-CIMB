@@ -46,7 +46,7 @@
             : ''
         "
         :disabled="items.status !== 'PENDING'"
-        @click="cancelTraining(items.id)"
+        @click="confirmCancel(items.id)"
       >
         Cancel
       </button>
@@ -56,6 +56,7 @@
 
 <script setup>
 /* eslint-disable */
+import Swal from "sweetalert2";
 import { defineProps } from "vue";
 import { useTraining } from "../../stores/training";
 
@@ -68,8 +69,37 @@ const props = defineProps({
 
 const store = useTraining();
 
-const cancelTraining = (id) => {
-  store.patchMyTraining(id);
+const cancelTraining = async (id) => {
+  const res = await store.patchMyTraining(id);
+  if (res) {
+    Swal.fire(
+      "Cancel Success!",
+      "You have successfully cancel for the training.",
+      "success"
+    );
+  } else {
+    Swal.fire(
+      "Cancel Failed!",
+      "Failed to cancel for the training. Please try again.",
+      "error"
+    );
+  }
+};
+
+const confirmCancel = async (id) => {
+  const result = await Swal.fire({
+    title: "Are u sure want to cancel ?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Yes, cancel!",
+    cancelButtonText: "Cancel",
+  });
+
+  if (result.isConfirmed) {
+    cancelTraining(id); // Jalankan fungsi jika user menekan "Ya"
+  }
 };
 </script>
 

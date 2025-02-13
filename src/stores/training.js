@@ -46,10 +46,12 @@ export const useTraining = defineStore("training", {
           }
         }
         this.loading = false;
-        console.log(res);
+        return true;
+        // console.log(res);
       } catch (error) {
         this.loading = false;
         console.log(error);
+        return false;
       }
     },
     async actGetMyTraining(page, limit, filter, startDate) {
@@ -79,9 +81,11 @@ export const useTraining = defineStore("training", {
           }
         }
         this.loading = false;
+        return true;
       } catch (error) {
         this.loading = false;
         console.log(error);
+        return false;
       }
     },
   },
