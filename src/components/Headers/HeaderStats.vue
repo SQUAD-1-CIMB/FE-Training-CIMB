@@ -6,8 +6,7 @@
         <!-- Card stats -->
         <div class="flex flex-wrap">
             <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
-              <a href="training">
-
+              <a href="/admin/trainings">
               <card-stats
                 statSubtitle="Training"
                 statTitle="100"
@@ -21,7 +20,7 @@
             </div>
 
             <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
-              <a href="training">
+              <a href="/admin/users">
               <card-stats
                 statSubtitle="NEW USERS"
                 statTitle="2,356"
@@ -35,7 +34,7 @@
             </div>
           
             <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
-              <a href="training">
+              <a href="/admin/approvals">
 
               <card-stats
                 statSubtitle="Approval"

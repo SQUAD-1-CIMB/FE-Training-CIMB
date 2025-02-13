@@ -10,7 +10,7 @@
             class="font-semibold text-lg"
             :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']"
           >
-            Users
+            Trainings
           </h3>
         </div>
       </div>
@@ -38,14 +38,24 @@
                   : 'bg-red-500 text-red-500 border-red-500',
               ]"
             >
-              Role
+              Status
             </th>
             <th
               class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
               :class="[
                 color === 'light'
                   ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                  : 'bg-emerald-800 text-emerald-300 border-emerald-700',
+                  : 'bg-red-800 text-red-300 border-red-700',
+              ]"
+            >
+            Percentage of Participants
+            </th>
+            <th
+              class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+              :class="[
+                color === 'light'
+                  ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                  : 'bg-red-800 text-red-300 border-red-700',
               ]"
             >
             </th>
@@ -53,35 +63,6 @@
         </thead>
         <tbody>
           <tr>
-            <th
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
-            >
-              <img
-                :src="bootstrap"
-                class="h-12 w-12 bg-white rounded-full border"
-                alt="..."
-              />
-              <span
-                class="ml-3 font-bold"
-                :class="[
-                  color === 'light' ? 'text-blueGray-600' : 'text-white',
-                ]"
-              >
-                John Doe
-              </span>
-            </th>
-            <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-            >
-              Karyawan
-            </td>
-            <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right"
-            >
-              <table-dropdown />
-            </td>
-          </tr>
-          <!-- <tr>
             <th
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
             >
@@ -102,39 +83,8 @@
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
-              $1,800 USD
-            </td>
-            <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-            >
               <i class="fas fa-circle text-emerald-500 mr-2"></i>
               completed
-            </td>
-            <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-            >
-              <div class="flex">
-                <img
-                  :src="team1"
-                  alt="..."
-                  class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow"
-                />
-                <img
-                  :src="team2"
-                  alt="..."
-                  class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                />
-                <img
-                  :src="team3"
-                  alt="..."
-                  class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                />
-                <img
-                  :src="team4"
-                  alt="..."
-                  class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                />
-              </div>
             </td>
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
@@ -180,38 +130,7 @@
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
-              $3,150 USD
-            </td>
-            <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-            >
               <i class="fas fa-circle text-red-500 mr-2"></i> delayed
-            </td>
-            <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-            >
-              <div class="flex">
-                <img
-                  :src="team1"
-                  alt="..."
-                  class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow"
-                />
-                <img
-                  :src="team2"
-                  alt="..."
-                  class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                />
-                <img
-                  :src="team3"
-                  alt="..."
-                  class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                />
-                <img
-                  :src="team4"
-                  alt="..."
-                  class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                />
-              </div>
             </td>
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
@@ -257,38 +176,7 @@
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
-              $4,400 USD
-            </td>
-            <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-            >
               <i class="fas fa-circle text-teal-500 mr-2"></i> on schedule
-            </td>
-            <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-            >
-              <div class="flex">
-                <img
-                  :src="team1"
-                  alt="..."
-                  class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow"
-                />
-                <img
-                  :src="team2"
-                  alt="..."
-                  class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                />
-                <img
-                  :src="team3"
-                  alt="..."
-                  class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                />
-                <img
-                  :src="team4"
-                  alt="..."
-                  class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                />
-              </div>
             </td>
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
@@ -334,39 +222,8 @@
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
-              $2,200 USD
-            </td>
-            <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-            >
               <i class="fas fa-circle text-emerald-500 mr-2"></i>
               completed
-            </td>
-            <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-            >
-              <div class="flex">
-                <img
-                  :src="team1"
-                  alt="..."
-                  class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow"
-                />
-                <img
-                  :src="team2"
-                  alt="..."
-                  class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                />
-                <img
-                  :src="team3"
-                  alt="..."
-                  class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                />
-                <img
-                  :src="team4"
-                  alt="..."
-                  class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                />
-              </div>
             </td>
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
@@ -390,7 +247,7 @@
             >
               <table-dropdown />
             </td>
-          </tr> -->
+          </tr>
         </tbody>
       </table>
     </div>
