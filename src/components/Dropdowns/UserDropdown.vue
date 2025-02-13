@@ -18,7 +18,7 @@
         </span>
       </div>
     </a>
-    <div
+    <!-- <div
       ref="popoverDropdownRef"
       class="bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48"
       v-bind:class="{
@@ -51,7 +51,7 @@
       >
         Seprated link
       </a>
-    </div>
+    </div> -->
   </div>
 </template>
 

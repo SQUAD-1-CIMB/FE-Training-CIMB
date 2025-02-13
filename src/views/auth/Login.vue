@@ -54,6 +54,7 @@
             <!-- <div class="text-blueGray-400 text-center mb-3 font-bold">
               <small>Or sign in with credentials</small>
             </div> -->
+            {{ errMessageLogin }}
             <form @submit.prevent="loginUser">
               <div class="relative w-full mb-3 pt-0">
                 <label
@@ -137,17 +138,21 @@
 
 <script setup>
 /* eslint-disable */
+import { computed, onMounted } from "vue";
 import { useAuthUser } from "@/stores/auth";
 import { useForm, useField } from "vee-validate";
 import * as yup from "yup";
+import { useRouter } from "vue-router";
+import { getCookie } from "../../../cookies";
 
 const store = useAuthUser();
 const validationSchema = yup.object({
-  email: yup
-    .string()
-    .email("Email tidak valid!")
-    .required("Email tidak boleh kosong!"),
-  password: yup.string().required("Password tidak boleh kosong!"),
+  email: yup.string().email("Email invalid!").required("Email can't be empty!"),
+  password: yup.string().required("Password can't be empty!"),
+});
+
+const errMessageLogin = computed(() => {
+  return store.getErrMessage;
 });
 
 // Inisialisasi VeeValidate
@@ -160,7 +165,15 @@ const { value: email, errorMessage: emailError } = useField("email");
 const { value: password, errorMessage: passwordError } = useField("password");
 
 // Fungsi saat submit form
-const loginUser = handleSubmit((values) => {
-  store.loginUser(values);
+
+const router = useRouter();
+const loginUser = handleSubmit(async (values) => {
+  const res = await store.loginUser(values);
+  if (!res) {
+    email.value = "";
+    password.value = "";
+  } else {
+    router.push("/");
+  }
 });
 </script>

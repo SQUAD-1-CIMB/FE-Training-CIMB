@@ -1362,6 +1362,11 @@ select {
   background-color: rgba(249, 115, 22, var(--tw-bg-opacity));
 }
 
+.backdrop-blue-md {
+
+backdrop-filter: blur(var(--blur-md))
+}
+
 .bg-red-200 {
   --tw-bg-opacity: 1;
   background-color: rgba(254, 202, 202, var(--tw-bg-opacity));
@@ -3397,6 +3402,12 @@ select {
   color: rgba(30, 41, 59, var(--tw-text-opacity));
 }
 
+.hover\:button-apply:hover {
+  --tw-text-opacity: 1;
+  background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
+  color: white
+}
+
 .hover\:underline:hover{
   text-decoration: underline;
   --tw-text-opacity: 1;
@@ -3786,6 +3797,15 @@ select {
     -webkit-transform: rotate(360deg);
             transform: rotate(360deg);
   }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-spin {
+  animation: spin 1s linear infinite;
 }
 
 @-webkit-keyframes ping {

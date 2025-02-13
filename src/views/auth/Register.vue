@@ -32,6 +32,9 @@
                 </div> -->
               </div>
             </div>
+            <p class="text-xs text-center text-red-500 pb-4">
+              {{ errMessage }}
+            </p>
             <form @submit.prevent="regisUser">
               <div style="display: flex; justify-content: space-between">
                 <div class="relative mb-3" style="width: 45%">
@@ -137,6 +140,20 @@
               </div>
             </form>
           </div>
+          <div
+            class="absolute bg-white bg-opacity-60 backdrop-blur-md z-10 h-full w-full flex items-center justify-center"
+            v-if="isLoading"
+          >
+            <div class="flex items-center">
+              <span class="text-2xl mr-4">Loading</span>
+              <!-- loading icon -->
+              <img
+                class="animate-spin h-5 w-5 text-gray-600"
+                src="@/assets/img/loading-spinner-svgrepo-com.svg"
+              />
+              <!-- end loading icon -->
+            </div>
+          </div>
           <div class="w-full text-center p-2">
             <router-link
               to="/auth/login"
@@ -152,26 +169,26 @@
 </template>
 <script setup>
 /* eslint-disable */
+import { computed } from "vue";
 import { useForm, useField } from "vee-validate";
 import * as yup from "yup";
+import { useAuthUser } from "@/stores/auth";
+import { useRouter } from "vue-router";
 
 const validationSchema = yup.object({
-  email: yup
-    .string()
-    .email("Email tidak valid!")
-    .required("Email tidak boleh kosong!"),
+  email: yup.string().email("Email invalid!").required("Email can't be empty"),
   password: yup
     .string()
-    .min(6, "Password harus lebih dari 6 karakter!")
-    .required("Password tidak boleh kosong!"),
+    .min(8, "Password must more than 8 character!")
+    .required("Password can't be empty"),
   name: yup
     .string()
-    .matches(/^[A-Za-z\s]+$/, "Nama hanya boleh berisi huruf!")
-    .required("Password tidak boleh kosong!"),
+    .matches(/^[A-Za-z\s]+$/, "Name can only use alphabet!")
+    .required("Password can't be empty"),
   department: yup
     .string()
-    .matches(/^[A-Za-z0-9 ]+$/, "Departemen hanya boleh huruf dan angka!")
-    .required("Departemen tidak boleh kosong!"),
+    .matches(/^[A-Za-z0-9 ]+$/, "Departemen can only use alphabet and numeric!")
+    .required("Departemen can't be empty"),
 });
 
 // Inisialisasi VeeValidate
@@ -187,7 +204,27 @@ const { value: department, errorMessage: departmentError } =
   useField("department");
 
 // Fungsi saat submit form
-const regisUser = handleSubmit((values) => {
-  console.log(values);
+
+const store = useAuthUser();
+
+const isLoading = computed(() => {
+  return store.getLoading;
+});
+
+const errMessage = computed(() => {
+  return store.getErrMessage;
+});
+
+const router = useRouter();
+const regisUser = handleSubmit(async (values) => {
+  const res = await store.registerUser(values);
+  if (res) {
+    router.push("/auth/login");
+  } else {
+    email.value = "";
+    password.value = "";
+    department.value = "";
+    name.value = "";
+  }
 });
 </script>

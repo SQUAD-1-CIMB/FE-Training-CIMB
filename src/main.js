@@ -35,6 +35,7 @@ import Index from "@/views/Index.vue";
 
 // Karyawan
 import MyTraining from "@/views/karyawan/MyTraining.vue";
+import ListTraining from "@/views/karyawan/ListTraining.vue";
 
 // routes
 
@@ -90,8 +91,12 @@ const routes = [
   {
     path: "/",
     component: Index,
-    // redirect: "/auth/login",
+    redirect: "/user/list-training",
     children: [
+      {
+        path: "/user/list-training",
+        component: ListTraining,
+      },
       {
         path: "/user/my-training",
         component: MyTraining,

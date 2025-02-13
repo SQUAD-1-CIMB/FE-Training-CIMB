@@ -1,14 +1,16 @@
 <template>
   <div>
-    <sidebar />
+    <sidebar role="MANAGER" />
     <div class="relative md:ml-64 bg-blueGray-100">
       <admin-navbar />
       <header-stats />
-      <div class="px-4 md:px-10 mx-auto w-full -m-24" style="top:0; height:72vh;">
+      <div
+        class="px-4 md:px-10 mx-auto w-full -m-24"
+        style="top: 0; height: 72vh"
+      >
         <router-view />
-
-      </div>    
-      <footer-admin style="bottom:0; position: absolute;"/>
+      </div>
+      <footer-admin style="bottom: 0; position: absolute" />
     </div>
   </div>
 </template>

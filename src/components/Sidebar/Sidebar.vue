@@ -18,28 +18,56 @@
         class="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
         to="/"
       >
-      <div
+        <div
           style="
             display: flex;
             justify-content: center;
-            flex-direction: row;
+            flex-direction: column;
+            align-items: center;
           "
           class="w-full"
         >
-          <div
-            class="w-full"
-            style="display: flex; justify-content: center"
+          <img
+            alt="..."
+            class="w-full rounded-full align-middle border-none shadow-lg mb-4"
+            src="@/assets/img/team-1-800x800.jpg"
+            width="400px"
+            height="400px"
+          />
+          <p class="mb-4">{{ dataUserName }}</p>
+          <router-link to="/profile" v-slot="{ href, navigate, isActive }">
+            <a
+              :href="href"
+              @click="navigate"
+              class="text-xs uppercase font-bold block mb-0"
+              :class="[
+                isActive
+                  ? 'text-red-500 hover:text-red-600'
+                  : 'text-blueGray-700 hover:text-blueGray-500',
+              ]"
+            >
+              <i
+                class="fa-solid fa-pen-to-square mr-2 text-sm"
+                :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
+              ></i>
+              <!-- <i
+                class="fas fa-tools mr-2 text-sm"
+                :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
+              ></i> -->
+              Edit profile
+            </a>
+          </router-link>
+          <!-- <div class="w-full" style="display: flex; justify-content: center">
+            <img src="@/assets/img/LogoOcto.png" class="w-80 md:w-20" />
+          </div> -->
+          <!-- <div
+            style="display: flex; justify-content: center; align-items: center"
           >
-            <img style="width: 100%" src="@/assets/img/octo_icon.svg" />
-          </div>
-          <div style="display: flex; justify-content: center; align-items: center;">
-            <p class="text-center text-lg text-red-500 font-bold mr-1">
-              OCTO
-            </p>
-            <p class="text-center text-lg  font-bold text-black-500 ml-1">
+            <p class="text-center text-lg text-red-500 font-bold mr-1">OCTO</p>
+            <p class="text-center text-lg font-bold text-black-500 ml-1">
               TRAINING
             </p>
-          </div>
+          </div> -->
         </div>
       </router-link>
       <!-- User -->
@@ -66,7 +94,7 @@
                 class="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
                 to="/"
               >
-                Octo Training
+                <img src="@/assets/img/LogoOcto.png" width="30%" height="70%" />
               </router-link>
             </div>
             <div class="w-6/12 flex justify-end">
@@ -97,38 +125,166 @@
         <h6
           class="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
         >
-          Features  
+          Features
         </h6>
         <!-- Navigation -->
+        <!-- <ul
+          class="md:flex-col md:min-w-full flex flex-col list-none"
+          v-if="role === 'MANAGER'"
+        ></ul> -->
 
         <ul class="md:flex-col md:min-w-full flex flex-col list-none">
-          <li class="items-center">
-            <router-link
-              to="/admin/dashboard"
-              v-slot="{ href, navigate, isActive }"
-            >
-              <a
-                :href="href"
-                @click="navigate"
-                class="text-xs uppercase py-3 font-bold block"
-                :class="[
-                  isActive
-                    ? 'text-red-500 hover:text-red-600'
-                    : 'text-blueGray-700 hover:text-blueGray-500',
-                ]"
+          <!-- Admin -->
+          <fragment v-if="role === 'MANAGER'">
+            <li class="items-center">
+              <router-link
+                to="/admin/dashboard"
+                v-slot="{ href, navigate, isActive }"
               >
-                <i
-                  class="fas fa-tv mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
-                ></i>
-                Dashboard
-              </a>
-            </router-link>
-          </li>
+                <a
+                  :href="href"
+                  @click="navigate"
+                  class="text-xs uppercase py-3 font-bold block"
+                  :class="[
+                    isActive
+                      ? 'text-red-500 hover:text-red-600'
+                      : 'text-blueGray-700 hover:text-blueGray-500',
+                  ]"
+                >
+                  <i
+                    class="fas fa-tv mr-2 text-sm"
+                    :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
+                  ></i>
+                  Dashboard
+                </a>
+              </router-link>
+            </li>
 
-          <li class="items-center">
+            <li class="items-center">
+              <router-link
+                to="/admin/trainings"
+                v-slot="{ href, navigate, isActive }"
+              >
+                <a
+                  :href="href"
+                  @click="navigate"
+                  class="text-xs uppercase py-3 font-bold block"
+                  :class="[
+                    isActive
+                      ? 'text-red-500 hover:text-red-600'
+                      : 'text-blueGray-700 hover:text-blueGray-500',
+                  ]"
+                >
+                  <i
+                    class="fas fa-tools mr-2 text-sm"
+                    :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
+                  ></i>
+                  Training
+                </a>
+              </router-link>
+            </li>
+
+            <li class="items-center">
+              <router-link
+                to="/admin/users"
+                v-slot="{ href, navigate, isActive }"
+              >
+                <a
+                  :href="href"
+                  @click="navigate"
+                  class="text-xs uppercase py-3 font-bold block"
+                  :class="[
+                    isActive
+                      ? 'text-red-500 hover:text-red-600'
+                      : 'text-blueGray-700 hover:text-blueGray-500',
+                  ]"
+                >
+                  <i
+                    class="fas fa-table mr-2 text-sm"
+                    :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
+                  ></i>
+                  Users
+                </a>
+              </router-link>
+            </li>
+
+            <li class="items-center">
+              <router-link
+                to="/admin/approvals"
+                v-slot="{ href, navigate, isActive }"
+              >
+                <a
+                  :href="href"
+                  @click="navigate"
+                  class="text-xs uppercase py-3 font-bold block"
+                  :class="[
+                    isActive
+                      ? 'text-red-500 hover:text-red-600'
+                      : 'text-blueGray-700 hover:text-blueGray-500',
+                  ]"
+                >
+                  <i
+                    class="fas fa-map-marked mr-2 text-sm"
+                    :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
+                  ></i>
+                  Approvals
+                </a>
+              </router-link>
+            </li>
+          </fragment>
+
+          <fragment v-else>
+            <li class="items-center">
+              <router-link
+                to="/user/list-training"
+                v-slot="{ href, navigate, isActive }"
+              >
+                <a
+                  :href="href"
+                  @click="navigate"
+                  class="text-xs uppercase py-3 font-bold block"
+                  :class="[
+                    isActive
+                      ? 'text-red-500 hover:text-red-600'
+                      : 'text-blueGray-700 hover:text-blueGray-500',
+                  ]"
+                >
+                  <i
+                    class="fas fa-tv mr-2 text-sm"
+                    :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
+                  ></i>
+                  List Training
+                </a>
+              </router-link>
+            </li>
+
+            <li class="items-center">
+              <router-link
+                to="/user/my-training"
+                v-slot="{ href, navigate, isActive }"
+              >
+                <a
+                  :href="href"
+                  @click="navigate"
+                  class="text-xs uppercase py-3 font-bold block"
+                  :class="[
+                    isActive
+                      ? 'text-red-500 hover:text-red-600'
+                      : 'text-blueGray-700 hover:text-blueGray-500',
+                  ]"
+                >
+                  <i
+                    class="fas fa-tools mr-2 text-sm"
+                    :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
+                  ></i>
+                  My Training
+                </a>
+              </router-link>
+            </li>
+          </fragment>
+          <!-- <li class="items-center">
             <router-link
-              to="/admin/trainings"
+              to="/user/profile"
               v-slot="{ href, navigate, isActive }"
             >
               <a
@@ -145,54 +301,28 @@
                   class="fas fa-tools mr-2 text-sm"
                   :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
                 ></i>
-                Training
+                Profile
               </a>
             </router-link>
-          </li>
-
+          </li> -->
+          <hr class="my-4 md:min-w-full" />
           <li class="items-center">
-            <router-link
-              to="/admin/users"
-              v-slot="{ href, navigate, isActive }"
+            <span
+              @click="logout"
+              style="cursor: pointer"
+              class="text-xs uppercase py-3 font-bold block"
+              :class="[
+                isActive
+                  ? 'text-red-500 hover:text-red-600'
+                  : 'text-blueGray-700 hover:text-blueGray-500',
+              ]"
             >
-              <a
-                :href="href"
-                @click="navigate"
-                class="text-xs uppercase py-3 font-bold block"
-                :class="[
-                  isActive
-                    ? 'text-red-500 hover:text-red-600'
-                    : 'text-blueGray-700 hover:text-blueGray-500',
-                ]"
-              >
-                <i
-                  class="fas fa-table mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
-                ></i>
-                Users
-              </a>
-            </router-link>
-          </li>
-
-          <li class="items-center">
-            <router-link to="/admin/approvals" v-slot="{ href, navigate, isActive }">
-              <a
-                :href="href"
-                @click="navigate"
-                class="text-xs uppercase py-3 font-bold block"
-                :class="[
-                  isActive
-                    ? 'text-red-500 hover:text-red-600'
-                    : 'text-blueGray-700 hover:text-blueGray-500',
-                ]"
-              >
-                <i
-                  class="fas fa-map-marked mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
-                ></i>
-                Approvals
-              </a>
-            </router-link>
+              <i
+                class="fas fa-table mr-2 text-sm"
+                :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
+              ></i>
+              Logout
+            </span>
           </li>
         </ul>
       </div>
@@ -206,6 +336,7 @@ import NotificationDropdown from "@/components/Dropdowns/NotificationDropdown.vu
 import UserDropdown from "@/components/Dropdowns/UserDropdown.vue";
 
 export default {
+  props: ["role", "dataUserName"],
   data() {
     return {
       collapseShow: "hidden",
@@ -220,5 +351,17 @@ export default {
     NotificationDropdown,
     UserDropdown,
   },
+};
+</script>
+
+<script setup>
+/* eslint-disable */
+import { useAuthUser } from "../../stores/auth";
+import { useRouter } from "vue-router";
+const store = useAuthUser();
+const router = useRouter();
+const logout = () => {
+  store.logout();
+  router.push("/auth/login");
 };
 </script>
