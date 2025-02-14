@@ -12,12 +12,63 @@
           >
             List Training
           </h3>
-          <!-- <div class="flex">
-            <span>Approved</span>
-            <span>Rejected</span>
-            <span>Withdrawn</span>
-            <span>Pending</span>
-          </div> -->
+          <div class="flex py-4" style="cursor: pointer">
+            <span
+              class="mr-4"
+              style="
+                background-color: grey;
+                color: white;
+                padding: 10px;
+                border-radius: 10px;
+              "
+              @click="filter = ''"
+              >ALL</span
+            >
+            <span
+              class="mr-4"
+              style="
+                background-color: green;
+                color: white;
+                padding: 10px;
+                border-radius: 10px;
+              "
+              @click="filter = 'APPROVED'"
+              >Approved</span
+            >
+            <span
+              class="mr-4"
+              style="
+                background-color: red;
+                color: white;
+                padding: 10px;
+                border-radius: 10px;
+              "
+              @click="filter = 'REJECTED'"
+              >Rejected</span
+            >
+            <span
+              class="mr-4"
+              style="
+                background-color: red;
+                color: white;
+                padding: 10px;
+                border-radius: 10px;
+              "
+              @click="filter = 'WITHDRAWN'"
+              >Withdrawn</span
+            >
+            <span
+              class="mr-4"
+              style="
+                background-color: yellow;
+                color: black;
+                padding: 10px;
+                border-radius: 10px;
+              "
+              @click="filter = 'PENDING'"
+              >Pending</span
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -67,7 +118,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(items, i) in store.gtrGetListApplication" :key="i">
+          <tr v-for="(items, i) in filteredTraining" :key="i">
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
@@ -79,9 +130,20 @@
               {{ items.Training.title }}
             </td>
             <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+              class="border-t-0 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
-              {{ items.status }}
+              <span
+                style="text-align: center; font-weight: 700"
+                :style="
+                  items.status === 'APPROVED'
+                    ? 'background-color: green; color: white; padding: 10px; border-radius: 10px;'
+                    : items.status === 'PENDING'
+                    ? 'background-color: yellow; color: black; padding: 10px; border-radius: 10px;'
+                    : 'background-color: red; color: white; padding: 10px; border-radius: 10px;'
+                "
+              >
+                {{ items.status }}
+              </span>
             </td>
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right"
@@ -164,7 +226,7 @@ export default {
 <script setup>
 /* eslint-disable */
 import { useApproval } from "@/stores/approval";
-import { onMounted } from "vue";
+import { onMounted, ref, computed } from "vue";
 import Swal from "sweetalert2";
 const store = useApproval();
 
@@ -221,6 +283,8 @@ const reject = async (id) => {
   }
 };
 
+const filter = ref("");
+
 const confirmReject = async (id) => {
   const result = await Swal.fire({
     title: "Are u sure want to reject ?",
@@ -236,6 +300,12 @@ const confirmReject = async (id) => {
     reject(id); // Jalankan fungsi jika user menekan "Ya"
   }
 };
+
+const filteredTraining = computed(() => {
+  return store.gtrGetListApplication.filter((x) =>
+    x.status.toLowerCase().includes(filter.value.toLowerCase())
+  );
+});
 
 onMounted(() => {
   actGetApplications();
