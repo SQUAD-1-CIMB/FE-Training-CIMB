@@ -35,7 +35,7 @@ export const useTraining = defineStore("training", {
     async actPostApply(idTraining) {
       this.loading = true;
       try {
-        // console.log(idTraining);
+        console.log(idTraining);
         const res = await api.post("/training-application", {
           training_id: idTraining,
         });
