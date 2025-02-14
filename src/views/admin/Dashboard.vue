@@ -15,7 +15,7 @@
         </div>
       </div>
     </div>
-    <div class="block w-full overflow-x-auto">
+    <div class="block w-full overflow-x-auto" v-if="!store.gtrGetLoading">
       <!-- Projects table -->
       <table class="items-center w-full bg-transparent border-collapse">
         <thead>
@@ -38,7 +38,17 @@
                   : 'bg-red-500 text-red-500 border-red-500',
               ]"
             >
-              Role
+              Training Name
+            </th>
+            <th
+              class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+              :class="[
+                color === 'light'
+                  ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                  : 'bg-red-500 text-red-500 border-red-500',
+              ]"
+            >
+              Status
             </th>
             <th
               class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
@@ -51,35 +61,52 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
-            >
-              <img
-                :src="bootstrap"
-                class="h-12 w-12 bg-white rounded-full border"
-                alt="..."
-              />
-              <span
-                class="ml-3 font-bold"
-                :class="[
-                  color === 'light' ? 'text-blueGray-600' : 'text-white',
-                ]"
-              >
-                John Doe
-              </span>
-            </th>
+          <tr v-for="(items, i) in store.gtrGetListApplication" :key="i">
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
-              Karyawan
+              Halo
+            </td>
+            <td
+              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+            >
+              {{ items.Training.title }}
+            </td>
+            <td
+              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+            >
+              {{ items.status }}
             </td>
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right"
             >
               <!-- <user-table-dropdown :userId="1" /> -->
-              <button>Approve</button>
-              <button>Reject</button>
+              <div
+                class="flex w-full"
+                style="justify-content: end"
+                v-if="items.status === 'PENDING'"
+              >
+                <div>
+                  <button
+                    @click="confirmApply(items.id)"
+                    type="button"
+                    style="background-color: green; padding: 10px"
+                    class="focus:outline-none text-white bg-grey-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                  >
+                    Approve
+                  </button>
+                </div>
+                <div class="px-2">
+                  <button
+                    @click="confirmReject(items.id)"
+                    type="button"
+                    style="padding: 10px"
+                    class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                  >
+                    Reject
+                  </button>
+                </div>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -126,4 +153,85 @@ export default {
     },
   },
 };
+</script>
+
+<script setup>
+/* eslint-disable */
+import { useApproval } from "@/stores/approval";
+import { onMounted } from "vue";
+import Swal from "sweetalert2";
+const store = useApproval();
+
+const actGetApplications = () => {
+  store.actGetApplications();
+};
+
+const approve = async (id) => {
+  const res = await store.actAcceptApplication(id);
+  if (res) {
+    Swal.fire(
+      "Approve Success!",
+      "You have successfully approved the training.",
+      "success"
+    );
+  } else {
+    Swal.fire(
+      "Approve Failed!",
+      "Failed to approve the training. Please try again.",
+      "error"
+    );
+  }
+};
+
+const confirmApply = async (id) => {
+  const result = await Swal.fire({
+    title: "Are u sure want to approve ?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Yes, Approve!",
+    cancelButtonText: "Cancel",
+  });
+
+  if (result.isConfirmed) {
+    approve(id); // Jalankan fungsi jika user menekan "Ya"
+  }
+};
+const reject = async (id) => {
+  const res = await store.actRejectApplication(id);
+  if (res) {
+    Swal.fire(
+      "Reject Success!",
+      "You have successfully rejected the training.",
+      "success"
+    );
+  } else {
+    Swal.fire(
+      "Reject Failed!",
+      "Failed to approve the training. Please try again.",
+      "error"
+    );
+  }
+};
+
+const confirmReject = async (id) => {
+  const result = await Swal.fire({
+    title: "Are u sure want to reject ?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Yes, reject!",
+    cancelButtonText: "Cancel",
+  });
+
+  if (result.isConfirmed) {
+    reject(id); // Jalankan fungsi jika user menekan "Ya"
+  }
+};
+
+onMounted(() => {
+  actGetApplications();
+});
 </script>

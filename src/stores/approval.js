@@ -1,19 +1,18 @@
 import { defineStore } from "pinia";
 import api from "../../axios-interceptor";
+
 export const useApproval = defineStore("approval", {
   state: () => ({
     listApplication: [],
+    loading: false,
   }),
   actions: {
     async actApplyTraining(trainingId) {
       this.loading = true;
       try {
-        const res = await api.post(
-          `/training-application`,
-          {
-            training_id: trainingId,
-          }
-        );
+        const res = await api.post(`/training-application`, {
+          training_id: trainingId,
+        });
         if (res.status == 201) {
           const training = this.listTraining.find((x) => x.id === trainingId);
           if (training) {
@@ -29,7 +28,8 @@ export const useApproval = defineStore("approval", {
 
     async actGetApplications() {
       try {
-        const res = await api.get(`/training-application`);
+        const res = await api.get(`/training-application?limit=100`);
+        console.log(res);
         if (res.status == 200) {
           this.listApplication = res.data.data;
         }
@@ -49,9 +49,11 @@ export const useApproval = defineStore("approval", {
           }
         }
         this.loading = false;
+        return true;
       } catch (error) {
         this.loading = false;
         console.log(error);
+        return false;
       }
     },
 
@@ -77,9 +79,11 @@ export const useApproval = defineStore("approval", {
           }
         }
         this.loading = false;
+        return true;
       } catch (error) {
         this.loading = false;
         console.log(error);
+        return false;
       }
     },
 
@@ -94,13 +98,16 @@ export const useApproval = defineStore("approval", {
           }
         }
         this.loading = false;
+        return true;
       } catch (error) {
         this.loading = false;
         console.log(error);
+        return false;
       }
     },
   },
   getters: {
     gtrGetListApplication: (state) => state.listApplication,
+    gtrGetLoading: (state) => state.loading,
   },
 });

@@ -12,7 +12,7 @@
       <div class="px-4 md:px-10 mx-auto w-full" style="top: 0; height: 72vh">
         <router-view />
       </div>
-      <footer-admin style="bottom: 0; position: absolute" />
+      <!-- <footer-admin style="bottom: 0; position: absolute" /> -->
     </div>
   </div>
 </template>
@@ -20,13 +20,12 @@
 import AdminNavbar from "@/components/Navbars/AdminNavbar.vue";
 import Sidebar from "@/components/Sidebar/Sidebar.vue";
 import HeaderUserStats from "@/components/Headers/HeaderUserStats.vue";
-import FooterAdmin from "@/components/Footers/FooterAdmin.vue";
+// import FooterAdmin from "@/components/Footers/FooterAdmin.vue";
 export default {
   name: "admin-layout",
   components: {
     AdminNavbar,
     Sidebar,
-    FooterAdmin,
     HeaderUserStats,
   },
 };
