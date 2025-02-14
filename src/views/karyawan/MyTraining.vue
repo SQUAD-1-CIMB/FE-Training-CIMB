@@ -91,19 +91,17 @@ const search = ref("");
 let searchTimeout;
 watch(search, (newVal) => {
   clearTimeout(searchTimeout);
-  if (search.value !== "") {
-    searchTimeout = setTimeout(async () => {
-      if (search.value == "") {
-        currentPage.value = 1;
-      }
-      await store.actGetMyTraining(
-        currentPage.value,
-        10,
-        search.value,
-        date.toISOString().split("T")[0]
-      );
-    }, 500);
-  }
+  searchTimeout = setTimeout(async () => {
+    if (search.value == "") {
+      currentPage.value = 1;
+    }
+    await store.actGetMyTraining(
+      currentPage.value,
+      10,
+      search.value,
+      date.toISOString().split("T")[0]
+    );
+  }, 500);
 });
 
 const filteredTraining = computed(() => {

@@ -75,7 +75,7 @@ export const useApproval = defineStore("approval", {
         if (res.status == 200) {
           const application = this.listApplication.find((x) => x.id === id);
           if (application) {
-            application.status = "ACCEPTED";
+            application.status = "APPROVED";
           }
         }
         this.loading = false;
