@@ -70,6 +70,7 @@ const props = defineProps({
 const store = useTraining();
 
 const cancelTraining = async (id) => {
+  console.log(id);
   const res = await store.patchMyTraining(id);
   if (res) {
     Swal.fire(

@@ -27,7 +27,7 @@
             : ''
         "
         :disabled="!items.isAbleToApply"
-        @click="confirmApply(id)"
+        @click="confirmApply(items.id)"
       >
         {{ items.isAbleToApply ? "Apply" : "Applied" }}
       </button>

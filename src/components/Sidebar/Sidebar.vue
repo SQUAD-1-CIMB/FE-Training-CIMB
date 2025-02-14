@@ -159,12 +159,12 @@
                     class="fas fa-tv mr-2 text-sm"
                     :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
                   ></i>
-                  Dashboard
+                  Approval
                 </a>
               </router-link>
             </li>
 
-            <li class="items-center">
+            <!-- <li class="items-center">
               <router-link
                 to="/admin/trainings"
                 v-slot="{ href, navigate, isActive }"
@@ -234,7 +234,7 @@
                   Approvals
                 </a>
               </router-link>
-            </li>
+            </li> -->
           </fragment>
 
           <fragment v-else>

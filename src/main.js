@@ -40,7 +40,7 @@ import ListTraining from "@/views/karyawan/ListTraining.vue";
 const pinia = createPinia();
 
 const routes = [
-  { 
+  {
     path: "/admin",
     redirect: "/admin/dashboard",
     component: Admin,
@@ -106,5 +106,3 @@ const router = createRouter({
 });
 
 createApp(App).use(router).use(pinia).mount("#app");
-
-
